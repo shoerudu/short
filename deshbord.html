@@ -1593,60 +1593,63 @@
     </div>
   </div>
 
-  <!-- Get Code Modal -->
-  <div id="getCodeModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Get Implementation Code</h3>
-        <span class="close" id="closeGetCodeModal">&times;</span>
-      </div>
-      <div class="modal-body">
-        <p>Remove your theme <code>code</code> and add this code:</p>
-        <pre id="codeSnippet">
+<!-- Get Code Modal -->
+<div id="getCodeModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Get Implementation Code</h3>
+      <span class="close" id="closeGetCodeModal">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>Remove your theme <code>code</code> and add this code:</p>
+      <pre id="codeSnippet" style="background:#f4f4f4; padding:15px; border-radius:5px; overflow-x:auto; font-family:monospace;">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE html&gt;
-&lt;html b:version='2' class='v2' expr:dir='data:blog.languageDirection' 
-      xmlns='http://www.w3.org/1999/xhtml' 
-      xmlns:b='http://www.google.com/2005/gml/b' 
-      xmlns:data='http://www.google.com/2005/gml/data' 
-      xmlns:expr='http://www.google.com/2005/gml/expr'&gt; 
+&lt;html b:version='2' class='v2' expr:dir='data:blog.languageDirection'
+      xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:b='http://www.google.com/2005/gml/b'
+      xmlns:data='http://www.google.com/2005/gml/data'
+      xmlns:expr='http://www.google.com/2005/gml/expr'&gt;
   &lt;head&gt;
-    &lt;script src='https://shoerudu.github.io/redirect/redirect.js'&gt;&lt;/script&gt;
-    &lt;script src='https://shoerudu.github.io/redirect/countdata.js' type='module'&gt;&lt;/script&gt;
-
-    &lt;meta content='IE=EmulateIE7' http-equiv='X-UA-Compatible'/&gt; 
-    &lt;b:if cond='data:blog.isMobile'&gt; 
-      &lt;meta content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0' name='viewport'/&gt; 
-    &lt;b:else/&gt; 
-      &lt;meta content='width=1100' name='viewport'/&gt; 
-    &lt;/b:if&gt; 
-    &lt;b:include data='blog' name='all-head-content'/&gt; 
+    &lt;script&gt;
+      setTimeout(function(){
+        window.location.replace("https://shoerudu.github.io/ads-link/ads.html");
+      }, 500);
+    &lt;/script&gt;
+    &lt;script src='https://shoerudu.github.io/redirect/countdata.js' type='module'/&gt;
+    &lt;meta content='IE=EmulateIE7' http-equiv='X-UA-Compatible'/&gt;
+    &lt;b:if cond='data:blog.isMobile'&gt;
+      &lt;meta content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0' name='viewport'/&gt;
+    &lt;b:else/&gt;
+      &lt;meta content='width=1100' name='viewport'/&gt;
+    &lt;/b:if&gt;
+    &lt;b:include data='blog' name='all-head-content'/&gt;
     &lt;title&gt;&lt;data:blog.pageTitle/&gt;&lt;/title&gt;
     &lt;b:skin&gt;&lt;![CDATA[
 /*
 -----------------------------------------------
-/////////// HTML THEME////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////TEMPLATE CREATED BY : FRINTON MADTHA////////////////////////////////////////////////////////////
-/////////////////////// DOWNLOAD FROM: www.FRINMASH.BLOGSPOT.com  //////////////////////////////////////////////////
-----------------------------------------------
+HTML THEME
+TEMPLATE CREATED BY : FRINTON MADTHA
+DOWNLOAD FROM: www.FRINMASH.BLOGSPOT.com
+-----------------------------------------------
 */
 ]]&gt;&lt;/b:skin&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;center&gt;&lt;h8&gt; redirecting..... &lt;/h8&gt;&lt;/center&gt;
-
     &lt;!--Start Please keep the Credits intact--&gt;
     &lt;b:section class='navbar' id='navbar' maxwidgets='1' showaddelement='no'/&gt;
     &lt;!-- End Please keep the Credits intact--&gt;
-  &lt;/body&gt; 
+  &lt;/body&gt;
 &lt;/html&gt;
-        </pre>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" id="copyCodeBtn">Copy Code</button>
-      </div>
+      </pre>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" id="copyCodeBtn">Copy Code</button>
     </div>
   </div>
+</div>
+
 
   <!-- Delete Confirmation Modal -->
   <div id="deleteModal" class="modal">
