@@ -1,6 +1,6 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getDatabase, ref, get, child, set, update } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+import { getDatabase, ref, get, child, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -25,52 +25,36 @@ const fallback = "https://fgchdrr-4som-git-main-parves-sikdars-projects.vercel.a
 if (!id) location.replace(fallback);
 
 const urlRef = ref(db, "urls/" + id);
-
-// Detect if visitor is bot
+const today = new Date().toISOString().slice(0,10);
 const isBot = /bot|crawl|spider|slurp/i.test(navigator.userAgent);
 
-// Today's date in YYYY-MM-DD format
-const today = new Date().toISOString().slice(0,10);
+// Fetch long URL first
+get(urlRef).then(snap => {
+  const longUrl = snap.exists() && snap.val().longUrl ? snap.val().longUrl : fallback;
 
-// Function to update traffic
-async function updateTraffic() {
-  try {
-    const snap = await get(child(urlRef, "traffic/" + today));
-    
-    if (snap.exists()) {
-      const data = snap.val();
-      await set(ref(db, "urls/" + id + "/traffic/" + today), {
+  // Redirect immediately
+  location.replace(longUrl);
+
+  // Update traffic in background
+  get(child(urlRef, "traffic/" + today)).then(tsnap => {
+    if(tsnap.exists()){
+      const data = tsnap.val();
+      set(ref(db, "urls/" + id + "/traffic/" + today), {
         visitorCount: (data.visitorCount || 0) + 1,
-        uniqueVisitorCount: (data.uniqueVisitorCount || 0) + 1, // simplified, can use cookies/IP for real uniqueness
+        uniqueVisitorCount: (data.uniqueVisitorCount || 0) + 1,
         botVisitorCount: (data.botVisitorCount || 0) + (isBot ? 1 : 0)
       });
     } else {
-      await set(ref(db, "urls/" + id + "/traffic/" + today), {
+      set(ref(db, "urls/" + id + "/traffic/" + today), {
         visitorCount: 1,
         uniqueVisitorCount: 1,
         botVisitorCount: isBot ? 1 : 0
       });
     }
-  } catch (err) {
-    console.error("Traffic update failed:", err);
-  }
-}
+  }).catch(e => console.error("Traffic update failed:", e));
 
-// Fetch the long URL and redirect
-async function redirect() {
-  try {
-    const snap = await get(urlRef);
-    if (snap.exists() && snap.val().longUrl) {
-      await updateTraffic();
-      location.replace(snap.val().longUrl);
-    } else {
-      location.replace(fallback);
-    }
-  } catch (err) {
-    console.error("Redirect failed:", err);
-    location.replace(fallback);
-  }
-}
-
-redirect();
+}).catch(err => {
+  console.error("Redirect failed:", err);
+  location.replace(fallback);
+});
 </script>
