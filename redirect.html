@@ -14,14 +14,16 @@
       const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js");
       const { getDatabase, ref, get, child } = await import("https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js");
 
+      // Updated Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyCyZImg-Uh79qppoJjyr3WIkCqPaE4MFFc",
-        authDomain: "turty-2f096.firebaseapp.com",
-        projectId: "turty-2f096",
-        storageBucket: "turty-2f096.firebasestorage.app",
-        messagingSenderId: "292943379883",
-        appId: "1:292943379883:web:c9ac1161226993b90b66ee",
-        databaseURL: "https://mimtyllb-default-rtdb.firebaseio.com/"
+        apiKey: "AIzaSyAHWskypzeWEHDqfSB6UyViji90LKt4Wt0",
+        authDomain: "my-new-shorurl.firebaseapp.com",
+        databaseURL: "https://my-new-shorurl-default-rtdb.firebaseio.com/",
+        projectId: "my-new-shorurl",
+        storageBucket: "my-new-shorurl.firebasestorage.app",
+        messagingSenderId: "974476613807",
+        appId: "1:974476613807:web:7f2f35b4d9691bb69b1c5a",
+        measurementId: "G-8ZDY26JDFQ"
       };
 
       const app = initializeApp(firebaseConfig);
