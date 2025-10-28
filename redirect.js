@@ -1,13 +1,3 @@
-<!doctype html>
-<html lang="bn">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Redirecting...</title>
-</head>
-<body>
-<p>Redirecting, please wait...</p>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getDatabase, ref, get, child, set, update } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
@@ -84,5 +74,3 @@ async function redirect() {
 
 redirect();
 </script>
-</body>
-</html>
