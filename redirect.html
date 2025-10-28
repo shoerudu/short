@@ -6,31 +6,83 @@
   <title>Redirecting...</title>
 </head>
 <body>
+<p>Redirecting, please wait...</p>
+
 <script type="module">
-  const id = new URL(location.href).searchParams.get("id");
-  if (!id) location.replace("https://fgchdrr-4som-git-main-parves-sikdars-projects.vercel.app");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+import { getDatabase, ref, get, child, set, update } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-  import("https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js").then(({ initializeApp }) => {
-    import("https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js").then(({ getDatabase, ref, get, child }) => {
-      const app = initializeApp({
-        apiKey: "AIzaSyAHWskypzeWEHDqfSB6UyViji90LKt4Wt0",
-        authDomain: "my-new-shorurl.firebaseapp.com",
-        databaseURL: "https://my-new-shorurl-default-rtdb.firebaseio.com/",
-        projectId: "my-new-shorurl",
-        storageBucket: "my-new-shorurl.firebasestorage.app",
-        messagingSenderId: "974476613807",
-        appId: "1:974476613807:web:7f2f35b4d9691bb69b1c5a",
-        measurementId: "G-8ZDY26JDFQ"
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyAHWskypzeWEHDqfSB6UyViji90LKt4Wt0",
+  authDomain: "my-new-shorurl.firebaseapp.com",
+  databaseURL: "https://my-new-shorurl-default-rtdb.firebaseio.com/",
+  projectId: "my-new-shorurl",
+  storageBucket: "my-new-shorurl.firebasestorage.app",
+  messagingSenderId: "974476613807",
+  appId: "1:974476613807:web:7f2f35b4d9691bb69b1c5a",
+  measurementId: "G-8ZDY26JDFQ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Get short code from URL
+const id = new URL(location.href).searchParams.get("id");
+const fallback = "https://fgchdrr-4som-git-main-parves-sikdars-projects.vercel.app";
+
+if (!id) location.replace(fallback);
+
+const urlRef = ref(db, "urls/" + id);
+
+// Detect if visitor is bot
+const isBot = /bot|crawl|spider|slurp/i.test(navigator.userAgent);
+
+// Today's date in YYYY-MM-DD format
+const today = new Date().toISOString().slice(0,10);
+
+// Function to update traffic
+async function updateTraffic() {
+  try {
+    const snap = await get(child(urlRef, "traffic/" + today));
+    
+    if (snap.exists()) {
+      const data = snap.val();
+      await set(ref(db, "urls/" + id + "/traffic/" + today), {
+        visitorCount: (data.visitorCount || 0) + 1,
+        uniqueVisitorCount: (data.uniqueVisitorCount || 0) + 1, // simplified, can use cookies/IP for real uniqueness
+        botVisitorCount: (data.botVisitorCount || 0) + (isBot ? 1 : 0)
       });
+    } else {
+      await set(ref(db, "urls/" + id + "/traffic/" + today), {
+        visitorCount: 1,
+        uniqueVisitorCount: 1,
+        botVisitorCount: isBot ? 1 : 0
+      });
+    }
+  } catch (err) {
+    console.error("Traffic update failed:", err);
+  }
+}
 
-      const db = getDatabase(app);
+// Fetch the long URL and redirect
+async function redirect() {
+  try {
+    const snap = await get(urlRef);
+    if (snap.exists() && snap.val().longUrl) {
+      await updateTraffic();
+      location.replace(snap.val().longUrl);
+    } else {
+      location.replace(fallback);
+    }
+  } catch (err) {
+    console.error("Redirect failed:", err);
+    location.replace(fallback);
+  }
+}
 
-      get(child(ref(db), "urls/" + id))
-        .then(snap => snap.exists() ? location.replace(snap.val().longUrl) :
-          location.replace("https://fgchdrr-4som-git-main-parves-sikdars-projects.vercel.app"))
-        .catch(() => location.replace("https://fgchdrr-4som-git-main-parves-sikdars-projects.vercel.app"));
-    });
-  });
+redirect();
 </script>
 </body>
 </html>
